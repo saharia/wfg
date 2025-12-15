@@ -1,0 +1,5 @@
+import os
+
+
+SUPABASE_GRAPHQL_URL = os.getenv("SUPABASE_GRAPHQL_URL")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
