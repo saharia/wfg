@@ -4,7 +4,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = "002_analytics_inputs"
+revision = "002_create_analytics"
 down_revision = "001_create_transactions"
 branch_labels = None
 depends_on = None
@@ -23,18 +23,17 @@ def upgrade():
             server_default=sa.text("uuid_generate_v4()"),
         ),
         sa.Column("email", sa.Text(), nullable=False),
-        sa.Column("chart_key", sa.Text(), nullable=False),
+        sa.Column("chartKey", sa.Text(), nullable=True),
         sa.Column("payload", postgresql.JSONB(), nullable=False),
         sa.Column(
-            "created_at",
+            "createdAt",
             sa.DateTime(timezone=True),
             server_default=sa.text("now()"),
             nullable=False,
         ),
         sa.UniqueConstraint(
             "email",
-            "chart_key",
-            name="analytics_email_chart_key_key",
+            name="analyticsEmail",
         ),
     )
 
