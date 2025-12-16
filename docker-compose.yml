@@ -29,13 +29,13 @@ services:
     volumes:
       - ./backend:/app
 
-  react-cli-tool:
-    image: node:20-alpine
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
-    command: "echo 'CLI Tool is ready'"
-    tty: true
+  # react-cli-tool:
+  #   image: node:20-alpine
+  #   working_dir: /app
+  #   volumes:
+  #     - ./frontend:/app
+  #   command: "echo 'CLI Tool is ready'"
+  #   tty: true
 
   react-app:
     build: ./frontend
