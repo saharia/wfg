@@ -6,6 +6,7 @@ export const FETCH_ANALYTICS_BY_EMAIL = gql`
   ) {
     analyticsCollection(
       filter: { email: { eq: $email } }
+      first: 1
     ) {
       edges {
         node {

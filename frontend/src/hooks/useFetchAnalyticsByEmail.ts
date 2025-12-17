@@ -1,9 +1,15 @@
 import { fetchAnalyticsByEmail } from "../services/fetchAnalyticsByEmail";
-import { useGlobalMutation } from "../utils/mutateAsync";
+import { useGlobalQuery } from "../utils/queryAsync";
 
-export const useFetchAnalyticsByEmail = () => {
-  return useGlobalMutation(
-    ({ email }: { email: string }) =>
-      fetchAnalyticsByEmail(email)
+export const useFetchAnalyticsByEmail = (email: string) => {
+  return useGlobalQuery(
+    ["call-duration", email],
+    async ({ queryKey }) => {
+      const email: string = queryKey[1] as string;
+      return fetchAnalyticsByEmail(email);
+    },
+    {
+      enabled: false,
+    }
   );
 };

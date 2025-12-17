@@ -8,23 +8,42 @@ export interface NormalizedError {
 }
 
 export const normalizeError = (error: any): NormalizedError => {
-  // Supabase / GraphQL response format
-  const body = error?.response?.body ? JSON.parse(error.response.body) : null;
-
   let message = "Something went wrong";
-  let errors = null;
+  let errors: any = null;
 
-  if (body?.message) {
-    message = body.message;
-    errors = body?.errors || null;
-  } else if (body?.errors && Array.isArray(body.errors) && body.errors.length > 0) {
-    message = body.errors[0].message || message;
-    errors = body.errors;
-  } else if (error?.message) {
-    message = error.message;
+  // ✅ Direct string error
+  if (typeof error === "string") {
+    message = error;
+  } else {
+    // Supabase / GraphQL response format
+    let body = null;
+
+    try {
+      body = error?.response?.body
+        ? typeof error.response.body === "string"
+          ? JSON.parse(error.response.body)
+          : error.response.body
+        : null;
+    } catch {
+      body = null;
+    }
+
+    if (body?.message) {
+      message = body.message;
+      errors = body?.errors || null;
+    } else if (Array.isArray(body?.errors) && body.errors.length > 0) {
+      message = body.errors[0]?.message || message;
+      errors = body.errors;
+    } else if (error?.message) {
+      message = error.message;
+    }
   }
 
-  return { success: false, message, errors };
+  return {
+    success: false,
+    message,
+    errors,
+  };
 };
 
 // React hook version for showing MUI toast

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const dataSchema = z.object({
+  email: z.string().email("Invalid email"),
   points: z.array(
     z.object({
       time: z.number(),
